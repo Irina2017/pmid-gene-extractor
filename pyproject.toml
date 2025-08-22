@@ -1,0 +1,38 @@
+[project]
+name = "pmid-gene-parser"
+version = "0.1.0"
+description = "PMID gene parser for extracting HGNC genes and disease co-mentions, and for adding extra metadata"
+authors = [
+    {name = "Irina Astrovskaya"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "requests (>=2.31.0,<3.0.0)",
+    "lxml (>=4.9.0,<5.0.0)",
+    "click (>=8.1.0,<9.0.0)",
+    "pydantic (>=2.0.0,<3.0.0)"
+]
+
+[tool.poetry]
+name = "pmid-gene-parser"
+version = "0.1.0"
+description = "PMID gene parser for extracting HGNC genes and disease associations"
+authors = ["Your Name <your.email@example.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "pmid_extractor", from = "src"}]
+
+[tool.poetry.scripts]
+pmid-gene-parser = "pmid_extractor.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+black = "^23.0.0"
+ruff = "^0.1.0"
+pre-commit = "^3.5.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
