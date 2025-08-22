@@ -24,11 +24,17 @@ def is_valid_pmid(pmid: str) -> bool:
 
     # check if all characters are digits
     if not pmid.isdigit():
+        print(f"ERROR: not all digits in PMID - {pmid} ")
         return False
 
     # no leading 0 and cannot be 0 itself
     if pmid.startswith("0"):
+        print(f"ERROR: PMID has leading 0 - {pmid} ")
         return False
 
     # length is between 1 and 8 digits
-    return len(pmid) <= 8
+    if len(pmid) > 8:
+        print(f"ERROR: PMID has more than 8 digits - {pmid} ")
+        return False
+
+    return True
