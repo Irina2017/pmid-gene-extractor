@@ -19,13 +19,13 @@ dependencies = [
 name = "pmid-gene-parser"
 version = "0.1.0"
 description = "PMID gene parser for extracting HGNC genes and disease associations"
-authors = ["Your Name <your.email@example.com>"]
+authors = ["Irina Astrovskaya"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "pmid_extractor", from = "src"}]
+packages = [{include = "pmid_parser", from = "src"}]
 
 [tool.poetry.scripts]
-pmid-gene-parser = "pmid_extractor.main:main"
+pmid-gene-parser = "pmid_parser.main:main"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"

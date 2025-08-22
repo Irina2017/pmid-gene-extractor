@@ -2,7 +2,7 @@
 
 from click.testing import CliRunner
 
-from pmid_extractor.main import main
+from pmid_parser.main import main
 
 
 def test_cli_works():
