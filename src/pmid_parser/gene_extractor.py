@@ -307,8 +307,29 @@ def extract_and_validate_genes_from_paper(paper_content: Dict) -> Dict:
     # Step 3: Extract disease associations from validated genes
     extract_disease_associations(validated_records)
 
+    # cleaaning for disease
+    for v in validated_records:
+        v.diseases = unique_non_substrings(extract_diseases(v.diseases, v.hgnc_symbol))
+
     results["validated_genes"] = validated_records
     return results
+
+
+def unique_non_substrings(text: str) -> list[str]:
+    """
+    Split by ';', trim, and remove entries that are substrings of others.
+    """
+    parts = [p.strip() for p in text.split(";") if p.strip()]
+
+    # remove duplicates early
+    parts = list(dict.fromkeys(parts))
+
+    result = []
+    for _i, p in enumerate(parts):
+        # keep if not a substring of any other part
+        if not any((p != q and p in q) for q in parts):
+            result.append(p)
+    return result
 
 
 def extract_gene_candidates(paper_content: Dict, results: Dict) -> Set[str]:
@@ -1185,6 +1206,76 @@ def _remove_stop_words_from_sentence(sentence: str) -> str:
         )
 
     return " ".join(filtered_sentence.split())  # Clean up extra spaces
+
+
+# minimal list of disease keywords to anchor extractions
+DISEASE_ANCHORS = r"(?:syndrome|disease|carcinoma|cancer|cardiomyopathy|hypomagnesemia|nephrotic|anemia|diabetes|myopathy|dystrophy)"
+
+
+def extract_diseases(sentences, gene_symbol):
+    """
+    sentences: list[str]
+    gene_symbol: e.g. "RRAGD", "HNF1A", "NPHS2", "COL4A3"
+    returns: 'disease1; disease2; ...' or ''
+    """
+    results = []
+
+    # 1) <GENE>-related <disease>
+    rel_pat = re.compile(
+        rf"\b{re.escape(gene_symbol)}[-\s]?related\s+([A-Za-z0-9 ,\-()]+?(?=(?:[,;.)]|$)))",
+        flags=re.IGNORECASE,
+    )
+
+    # 2) “associated/association with <disease ...>”
+    assoc_pat = re.compile(
+        rf"(?:associated|association)\s+with\s+([A-Za-z0-9 ,\-()]+?{DISEASE_ANCHORS}[A-Za-z0-9 ,\-()]*)(?=[.;)]|$)",
+        flags=re.IGNORECASE,
+    )
+
+    # 3) standalone “… <Disease word> …” (syndrome/disease/etc.), prefer compact chunks
+    #    grabs the shortest span ending before .,; )
+    generic_pat = re.compile(
+        rf"([A-Z][A-Za-z0-9 \-']*?{DISEASE_ANCHORS}[A-Za-z0-9 \-(),'']*?)(?=[.;)]|$)",
+        flags=re.IGNORECASE,
+    )
+
+    # 4) MIM-bearing syndromes (e.g., “Alport syndrome (MIM 203780 and 104200)”)
+    mim_pat = re.compile(
+        r"([A-Z][A-Za-z \-']+? syndrome\s*\(MIM [^)]+\))", flags=re.IGNORECASE
+    )
+
+    def clean(s):
+        s = re.sub(r"\s+", " ", s).strip(" ,;.")
+        # trim leading articles/phrases that sneak in
+        s = re.sub(r"^(?:a|an|the)\s+", "", s, flags=re.IGNORECASE)
+        # avoid grabbing “a gene …”, “a variant …”
+        s = re.sub(r"^(?:gene|variant)\s+", "", s, flags=re.IGNORECASE)
+        return s.strip()
+
+    for sent in sentences:
+        # priority order: gene-related, explicit assoc, MIM, generic
+        for pat in (rel_pat, assoc_pat, mim_pat, generic_pat):
+            for m in pat.finditer(sent):
+                phrase = clean(m.group(1))
+                # keep only phrases that still contain an anchor word (defensive)
+                if re.search(DISEASE_ANCHORS, phrase, re.IGNORECASE):
+                    results.append(phrase)
+
+    # post-filtering to avoid overly long “list” phrases starting with “a variant…”
+    results = [
+        r for r in results if not re.match(r"^(?:a\s+variant|variant)\b", r, re.I)
+    ]
+
+    # de-dup (case-insensitive) while preserving original casing/order
+    seen = set()
+    unique = []
+    for r in results:
+        key = r.lower()
+        if key not in seen:
+            seen.add(key)
+            unique.append(r)
+
+    return "; ".join(unique)
 
 
 def _print_compressed_findings(all_findings: List[GeneMatch]) -> None:
