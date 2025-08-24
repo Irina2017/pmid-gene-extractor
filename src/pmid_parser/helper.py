@@ -2,6 +2,11 @@
 Helper functions
 """
 
+import csv
+from typing import List
+
+from .gene_extractor import ValidatedGeneRecord
+
 
 def is_valid_pmid(pmid: str) -> bool:
     """
@@ -38,3 +43,37 @@ def is_valid_pmid(pmid: str) -> bool:
         return False
 
     return True
+
+
+def write_genes_to_csv(
+    validated_genes: List[ValidatedGeneRecord], filename: str
+) -> None:
+    """Write validated genes to CSV file."""
+
+    with open(filename, "w", newline="", encoding="utf-8") as csvfile:
+        writer = csv.writer(csvfile)
+
+        # Write header
+        writer.writerow(
+            [
+                "HGNC ID",
+                "HGNC Gene Name",
+                "Gene Aliases",
+                "Hg38 genomic coordinates",
+                "Hg19 genomic coordinates",
+                "Disease",
+            ]
+        )
+
+        # Write gene data
+        for _i, gene in enumerate(validated_genes, 1):
+            writer.writerow(
+                [
+                    gene.hgnc_id,
+                    gene.hgnc_symbol,
+                    gene.gene_aliases,
+                    gene.hg38_coordinates,
+                    gene.hg19_coordinates,
+                    " | ".join(gene.diseases) if gene.diseases else "",
+                ]
+            )
