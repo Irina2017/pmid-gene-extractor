@@ -1,5 +1,3 @@
-# pmid-gene-extractor
-
 # PMID Gene Extractor
 
 A Python tool for extracting gene mentions and disease associations from scientific publications using PubMed IDs.
@@ -10,7 +8,7 @@ Extract genes in HGNC format and their disease associations from biomedical lite
 - Fetching full-text articles from PubMed/PMC when available
 - Parsing structured sections (title, abstract, methods, results, discussion)
 - Identifying gene mentions and validating against HGNC database
-- Mapping gene-disease relationships with provenance tracking
+- Mapping gene-disease relationships
 
 ## Installation
 
@@ -21,7 +19,8 @@ This project uses Poetry for dependency management:
 git clone https://github.com/Irina2017/pmid-gene-extractor.git
 cd pmid-gene-extractor
 
-# Install poetry - either through curl or pip (in later case - comment curl command and uncomment pip command)
+# Install poetry - either through curl or pip
+#(in later case - comment curl command and uncomment pip command)
 curl -sSL https://install.python-poetry.org | python3 -
 #pip install poetry
 
@@ -31,8 +30,13 @@ poetry install
 
 ```
 
-NOTE: If during installation poetry complains about Python version, then:
+### NOTE
+
+ If during installation poetry complains about Python version, then:
 ```bash
+
+# Install Homebrew if needed: https://brew.sh/
+
 # Install pyenv if not installed
 brew install pyenv
 
@@ -46,12 +50,11 @@ pyenv global 3.12.7
 poetry install
 
 ```
+If need to install brew - refer to here (https://brew.sh/)
 
 ## Usage
 
-
 ```bash
-
 # Extract genes from a paper
 # Save results to file - produces csv file with expected fields - HGNC id, HGNC gene symbol,
 #aliases, HG38 and HG19 coordinates and extracted disease
@@ -65,6 +68,15 @@ poetry run pmid-gene-parser --pmid 38790019
 #help
 poetry run pmid-gene-parser --help
 ```
+
+### NOTE
+macOS TLS note (urllib3 NotOpenSSLWarning)
+If you see:
+
+urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL ...'
+
+your Python is linked against LibreSSL. Use a Python build with OpenSSL. That warning does not prevent
+program to run successfully.
 
 ## Project Structure
 
