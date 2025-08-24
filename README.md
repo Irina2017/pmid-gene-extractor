@@ -50,7 +50,7 @@ pyenv global 3.12.7
 poetry install
 
 ```
-If need to install brew - refer to here (https://brew.sh/)
+
 
 ## Usage
 
@@ -61,8 +61,8 @@ If need to install brew - refer to here (https://brew.sh/)
 poetry run pmid-gene-parser --pmid 38790019 --output results.csv
 
 
-# In this case output is not stored to the file
-# Progam will output some statistics about the genes but with different field than above
+# Without output option, progam will output some statistics about the genes
+# but in different format than above
 poetry run pmid-gene-parser --pmid 38790019
 
 #help
@@ -70,13 +70,14 @@ poetry run pmid-gene-parser --help
 ```
 
 ### NOTE
-macOS TLS note (urllib3 NotOpenSSLWarning)
+
 If you see:
 
+```bash
 urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL ...'
-
-your Python is linked against LibreSSL. Use a Python build with OpenSSL. That warning does not prevent
-program to run successfully.
+```
+your Python is linked against LibreSSL. Use a Python build with OpenSSL if you can.
+That warning does not prevent program to run successfully though.
 
 ## Project Structure
 
