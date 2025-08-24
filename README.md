@@ -10,6 +10,16 @@ Extract genes in HGNC format and their disease associations from biomedical lite
 - Identifying gene mentions and validating against HGNC database
 - Mapping gene-disease relationships
 
+## Documentation
+Detailed documentation is available in the docstrings of each module. The main entry point is main.py.
+
+## Requirements
+ -- Python 3.12+
+
+ -- Internet access for PubMed/PMC APIs
+
+ -- Dependencies managed via pyproject.toml
+
 ## Installation
 
 This project uses Poetry for dependency management:
@@ -81,17 +91,14 @@ That warning does not prevent program to run successfully though.
 
 ## Project Structure
 
-src/pmid_parser/main.py - Main entry point and CLI interface
-src/pmid_parser/pmid_reader.py - PubMed/PMC API integration and text extraction
-src/pmid_parser/gene_extractor.py - Extraction of gene candidates, validation against HGNC DB, disease extraction
-src/pmid_parser/helpers.py - Utility functions for validation
-src/pmid_parser/config.py - Configuration constants
+-- src/pmid_parser/main.py - Main entry point and CLI interface
+
+-- src/pmid_parser/pmid_reader.py - PubMed/PMC API integration and text extraction
+
+-- src/pmid_parser/gene_extractor.py - Extraction of gene candidates, validation against HGNC DB, disease extraction
+
+-- src/pmid_parser/helpers.py - Utility functions for validation
+
+-- src/pmid_parser/config.py - Configuration constants
 
 
-## Documentation
-Detailed documentation is available in the docstrings of each module. The main entry point is main.py.
-
-## Requirements
-Python 3.12+
-Internet access for PubMed/PMC APIs
-Dependencies managed via pyproject.toml
