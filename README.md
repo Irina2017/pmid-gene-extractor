@@ -67,6 +67,7 @@ poetry install
 # Save results to file - produces csv file with expected fields - HGNC id, HGNC gene symbol,
 #aliases, HG38 and HG19 coordinates and extracted disease
 poetry run pmid-gene-parser --pmid 38790019 --output results.csv
+#Expected output - PMID38790019.csv
 
 
 # Without output option, progam will output some statistics about the genes
