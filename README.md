@@ -21,22 +21,46 @@ This project uses Poetry for dependency management:
 git clone https://github.com/Irina2017/pmid-gene-extractor.git
 cd pmid-gene-extractor
 
+# Install poetry - either through curl or pip (in later case - comment curl command and uncomment pip command)
+curl -sSL https://install.python-poetry.org | python3 -
+#pip install poetry
+
+
 # Install dependencies
 poetry install
 
-# Activate the environment
-poetry shell
+```
+
+NOTE: If during installation poetry complains about Python version, then:
+```bash
+# Install pyenv if not installed
+brew install pyenv
+
+# Install specific Python version
+pyenv install 3.12.7
+
+# Set as global default
+pyenv global 3.12.7
+
+# Install dependencies
+poetry install
+
 ```
 
 ## Usage
 
 
 ```bash
-# Extract genes from a paper
-poetry run pmid-gene-parser --pmid 38790019
 
-# Save results to file
+# Extract genes from a paper
+# Save results to file - produces csv file with expected fields - HGNC id, HGNC gene symbol,
+#aliases, HG38 and HG19 coordinates and extracted disease
 poetry run pmid-gene-parser --pmid 38790019 --output results.csv
+
+
+# In this case output is not stored to the file
+# Progam will output some statistics about the genes but with different field than above
+poetry run pmid-gene-parser --pmid 38790019
 
 #help
 poetry run pmid-gene-parser --help
