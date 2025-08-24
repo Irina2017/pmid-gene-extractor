@@ -10,6 +10,10 @@ Extract genes in HGNC format and their disease associations from biomedical lite
 - Identifying gene mentions and validating against HGNC database
 - Mapping gene-disease relationships
 
+## Example of output
+
+[PMID38790019.csv](https://github.com/Irina2017/pmid-gene-extractor/blob/main/PMID38790019.csv)
+
 ## Documentation
 Detailed documentation is available in the docstrings of each module. The main entry point is main.py.
 
@@ -67,7 +71,7 @@ poetry install
 # Save results to file - produces csv file with expected fields - HGNC id, HGNC gene symbol,
 #aliases, HG38 and HG19 coordinates and extracted disease
 poetry run pmid-gene-parser --pmid 38790019 --output results.csv
-#Expected output - PMID38790019.csv
+#Expected output for PMID:38790019 can be found [PMID38790019.csv](https://github.com/Irina2017/pmid-gene-extractor/blob/main/PMID38790019.csv)
 
 
 # Without output option, progam will output some statistics about the genes
