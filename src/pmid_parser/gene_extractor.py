@@ -307,11 +307,66 @@ def extract_and_validate_genes_from_paper(paper_content: Dict) -> Dict:
     # Step 3: Extract disease associations from validated genes
     extract_disease_associations(validated_records)
 
-    # cleaaning for disease
+    # cleaning for disease
     for v in validated_records:
-        v.diseases = unique_non_substrings(extract_diseases(v.diseases, v.hgnc_symbol))
-
+        v.diseases = clean_noise_from_text(
+            unique_non_substrings(extract_diseases(v.diseases, v.hgnc_symbol))
+        )
     results["validated_genes"] = validated_records
+    return results
+
+
+def clean_noise_from_text(records: List[str]) -> List[str]:
+    """
+    Clean noise from list of disease text strings.
+
+    Rules:
+    1. For "associated/association" text: find first "with" and remove everything before and including "with"
+    2. Cut everything after syndrome/disease/disorder words
+
+    Args:
+        records: List of disease text strings to clean
+
+    Returns:
+        List of cleaned disease text strings (excluding empty results)
+    """
+    results = []
+
+    for s in records:
+        if not s:
+            continue
+
+        text = s.strip()
+
+        # handle association patterns
+        if re.search(r"\bassociat", text, re.IGNORECASE):
+            with_match = re.search(r"\bwith\s+(.+)", text, re.IGNORECASE)
+            if with_match:
+                text = with_match.group(1)
+
+        # cut after syndrome/disease/disorder
+        disease_words = [
+            "syndrome",
+            "disease",
+            "disorder",
+            "cardiomyopathy",
+            "nephropathy",
+        ]
+        for word in disease_words:
+            matches = list(re.finditer(rf"\b{word}\b", text, re.IGNORECASE))
+            if matches:
+                last_match = matches[-1]
+                text = text[: last_match.end()]
+                break
+
+        # Final cleanup
+        text = re.sub(r"\s+", " ", text).strip(" ,;.")
+        cleaned_text = text.strip()
+
+        # Only add non-empty results
+        if cleaned_text:
+            results.append(cleaned_text)
+
     return results
 
 
@@ -602,6 +657,7 @@ def extract_diseases_from_sentence(
         # CASE 2: Association keywords within window of 20 tokens
         case2_disease = _check_association_pattern(tokens, gene_idx, disease_keywords)
         if case2_disease:
+
             diseases_found.append(case2_disease)
             # print(f"   CASE 2 - Association: '{case2_disease}'")
 
