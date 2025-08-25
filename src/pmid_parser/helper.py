@@ -74,6 +74,6 @@ def write_genes_to_csv(
                     gene.gene_aliases,
                     gene.hg38_coordinates,
                     gene.hg19_coordinates,
-                    " | ".join(gene.diseases) if gene.diseases else "",
+                    " ; ".join(gene.diseases) if gene.diseases else "",
                 ]
             )
