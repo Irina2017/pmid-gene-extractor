@@ -1,7 +1,7 @@
 HGNC ID,HGNC Gene Name,Gene Aliases,Hg38 genomic coordinates,Hg19 genomic coordinates,Disease
-HGNC:2204,COL4A3,,2:227164624-227314792,2:228029281-228179508,"are recognized to be associated with COL4A -related diseases, commonly referred to as Alport syndrome | associated with recessive and dominant forms of Alport syndrome (MIM 203780 and 104200)"
+HGNC:19903,RRAGD,"DKFZP761H171, bA11D8.2.1",6:89364616-89412273,6:90074355-90121989,"RRAGD-related hypomagnesemia ; hypomagnesemia, tubulopathy, and dilated cardiomyopathy"
 HGNC:618,APOL1,,22:36253071-36267530,22:36649056-36663576,
+HGNC:2204,COL4A3,,2:227164624-227314792,2:228029281-228179508,"COL4A -related diseases, commonly referred to as Alport syndrome ; recessive and dominant forms of Alport syndrome"
+HGNC:13394,NPHS2,"SRN1, PDCN",1:179550539-179575952,1:179519674-179545087,nephrotic syndrome
 HGNC:11621,HNF1A,"HNF1, LFB1, HNF1α",12:120978543-121002512,12:121416346-121440315,
-HGNC:13394,NPHS2,"SRN1, PDCN",1:179550539-179575952,1:179519674-179545087,considering its association with nephrotic syndrome
-HGNC:19903,RRAGD,"DKFZP761H171, bA11D8.2.1",6:89364616-89412273,6:90074355-90121989,"newly associated in November 2021 with hypomagnesemia, tubulopathy, and dilated cardiomyopathy | RRAGD-related hypomagnesemia"
-HGNC:4868,HERC2,"jdf2, p528, D15F37S1",15:28111040-28322179,15:28356186-28567298,"unexplained fevers within the broad clinical spectrum of Intellectual Developmental Disorder, Autosomal Recessive 38 syndrome, despite the absence of any other symptoms in the patient"
+HGNC:4868,HERC2,"jdf2, p528, D15F37S1",15:28111040-28322179,15:28356186-28567298,"unexplained fevers within the broad clinical spectrum of Intellectual Developmental Disorder, Autosomal Recessive 38 syndrome"
